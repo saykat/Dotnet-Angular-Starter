@@ -5,8 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="autofac" Version="4.8.1" />
     <PackageReference Include="NetCore.AutoRegisterDi" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Web.Api.Core\Web.Api.Core.csproj" />
+    <ProjectReference Include="..\Web.Api.Infrastructure\Web.Api.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

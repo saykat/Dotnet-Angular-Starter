@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Web.Api.Infrastructure.Repository;
+using Web.Api.Service.Services;
 
 namespace Web.Api.Controllers
 {
@@ -15,11 +16,11 @@ namespace Web.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IUserTestRepository _repository;
+        private readonly IUserService _service;
 
-        public UserController(IUserTestRepository repository)
+        public UserController(IUserService service)
         {
-            this._repository = repository;
+            this._service = service;
         }
 
 
@@ -27,7 +28,7 @@ namespace Web.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok( await _repository.ListAll());
+            return Ok(await _service.GetAll());
         }
 
         // GET: api/User/5

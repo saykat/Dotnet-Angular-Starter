@@ -20,8 +20,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using NetCore.AutoRegisterDi;
 using NLog;
 using Swashbuckle.AspNetCore.Swagger;
+using Web.Api.Config;
 using Web.Api.Core;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -32,7 +34,7 @@ using Web.Api.Infrastructure.Identity;
 using Web.Api.Infrastructure.Repository;
 using Web.Api.Models.Settings;
 using IUserRepository = Web.Api.Core.Interfaces.Gateways.Repositories.IUserRepository;
-
+using Web.Api.Service.Services;
 
 namespace Web.Api
 {
@@ -51,11 +53,12 @@ namespace Web.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+
             // Add framework services.
             services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"), b => b.MigrationsAssembly("Web.Api.Infrastructure")));
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"), b => b.MigrationsAssembly("Web.Api.Infrastructure")));
 
-
+           
 
             // Register the ConfigurationBuilder instance of AuthSettings
             var authSettings = Configuration.GetSection(nameof(AuthSettings));
@@ -163,6 +166,7 @@ namespace Web.Api
 
             builder.RegisterModule(new CoreModule());
             builder.RegisterModule(new InfrastructureModule());
+            builder.RegisterModule(new ServiceRegisterModule());
 
             // Presenters
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter")).SingleInstance();

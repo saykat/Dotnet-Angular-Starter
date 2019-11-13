@@ -11,76 +11,49 @@ namespace Web.Api.Infrastructure.Repository
 {
     public interface IBaseRepository<T> where T : BaseEntity
     {
-        Task<T> GetById(int id);
-        Task<IQueryable<T>> ListAll();
-        Task<T> GetSingleBySpec(ISpecification<T> spec);
-        Task<List<T>> List(ISpecification<T> spec);
-        Task<T> Add(T entity);
-        Task Update(T entity);
-        Task Delete(T entity);
+        T GetById(string id);
+        IQueryable<T> GetAll();
+        T Add(T entity);
+        void Update(T entity);
+        void Delete(T entity);
     }
 
 
     public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-        private AppDbContext _appDbContext;
+        public AppDbContext _context;
 
         public BaseRepository(AppDbContext appContext)
         {
-            _appDbContext = appContext;
+            _context = appContext;
         }
-        public virtual async Task<TEntity> GetById(int id)
+        public virtual  TEntity GetById(string id)
         {
-            return await _appDbContext.Set<TEntity>().FindAsync(id);
-        }
-
-        public async Task<IQueryable<TEntity>> ListAll()
-        {
-            return  _appDbContext.Set<TEntity>().AsQueryable();
+            return _context.Set<TEntity>().Find(id);
         }
 
-        public async Task<TEntity> GetSingleBySpec(ISpecification<TEntity> spec)
+        public  IQueryable<TEntity> GetAll()
         {
-            var result = await List(spec);
-            return result.FirstOrDefault();
+            return _context.Set<TEntity>().AsQueryable();
         }
-
-        public async Task<List<TEntity>> List(ISpecification<TEntity> spec)
+       
+        public  TEntity Add(TEntity entity)
         {
-            // fetch a Queryable that includes all expression-based includes
-            var queryableResultWithIncludes = spec.Includes
-                .Aggregate(_appDbContext.Set<TEntity>().AsQueryable(),
-                    (current, include) => current.Include(include));
-
-            // modify the IQueryable to include any string-based include statements
-            var secondaryResult = spec.IncludeStrings
-                .Aggregate(queryableResultWithIncludes,
-                    (current, include) => current.Include(include));
-
-            // return the result of the query using the specification's criteria expression
-            return await secondaryResult
-                            .Where(spec.Criteria)
-                            .ToListAsync();
-        }
-
-
-        public async Task<TEntity> Add(TEntity entity)
-        {
-            _appDbContext.Set<TEntity>().Add(entity);
-            await _appDbContext.SaveChangesAsync();
+            _context.Set<TEntity>().Add(entity);
+            _context.SaveChanges();
             return entity;
         }
 
-        public async Task Update(TEntity entity)
+        public void  Update(TEntity entity)
         {
-            _appDbContext.Entry(entity).State = EntityState.Modified;
-            await _appDbContext.SaveChangesAsync();
+            _context.Entry(entity).State = EntityState.Modified;
+            _context.SaveChanges();
         }
 
-        public async Task Delete(TEntity entity)
+        public void Delete(TEntity entity)
         {
-            _appDbContext.Set<TEntity>().Remove(entity);
-            await _appDbContext.SaveChangesAsync();
+            _context.Set<TEntity>().Remove(entity);
+            _context.SaveChanges();
         }
     }
 

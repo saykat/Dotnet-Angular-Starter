@@ -14,12 +14,14 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.0.100" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
+    <PackageReference Include="NetCore.AutoRegisterDi" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Web.Api.Core\Web.Api.Core.csproj" />
     <ProjectReference Include="..\Web.Api.Infrastructure\Web.Api.Infrastructure.csproj" />
+    <ProjectReference Include="..\Web.Api.Service\Web.Api.Service.csproj" />
   </ItemGroup>
 
 </Project>
