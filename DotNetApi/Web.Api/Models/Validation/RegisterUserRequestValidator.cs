@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Web.Api.Core.Dto.RequestModels;
 using Web.Api.Models.Request;
 
 namespace Web.Api.Models.Validation

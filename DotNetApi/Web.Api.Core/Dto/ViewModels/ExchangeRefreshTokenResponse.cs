@@ -1,6 +1,4 @@
-﻿using Web.Api.Core.Dto;
-
-namespace Web.Api.Models.Response
+﻿namespace Web.Api.Core.Dto.ViewModels
 {
     public class ExchangeRefreshTokenResponse
     {

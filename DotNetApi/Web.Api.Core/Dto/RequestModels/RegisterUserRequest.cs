@@ -1,6 +1,6 @@
 ﻿
 
-namespace Web.Api.Models.Request
+namespace Web.Api.Core.Dto.RequestModels
 {
     public class RegisterUserRequest
     {

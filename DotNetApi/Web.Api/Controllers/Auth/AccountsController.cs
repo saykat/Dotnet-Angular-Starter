@@ -21,7 +21,7 @@ namespace Web.Api.Controllers
 
         // POST api/accounts
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Models.Request.RegisterUserRequest request)
+        public async Task<ActionResult> Post([FromBody] Core.Dto.RequestModels.RegisterUserRequest request)
         {
             if (!ModelState.IsValid)
             {
