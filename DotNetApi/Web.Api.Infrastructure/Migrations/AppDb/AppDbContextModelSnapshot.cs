@@ -19,6 +19,64 @@ namespace Web.Api.Infrastructure.Migrations.AppDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Web.Api.Core.Domain.Entities.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CreatedUserId");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<Guid?>("DeletedUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModificationTime");
+
+                    b.Property<Guid?>("ModifiedUserId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions");
+                });
+
+            modelBuilder.Entity("Web.Api.Core.Domain.Entities.PermissionMap", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CreatedUserId");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<Guid?>("DeletedUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModificationTime");
+
+                    b.Property<Guid?>("ModifiedUserId");
+
+                    b.Property<Guid>("PermissionId");
+
+                    b.Property<Guid>("RoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("PermissionMaps");
+                });
+
             modelBuilder.Entity("Web.Api.Core.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
@@ -53,6 +111,32 @@ namespace Web.Api.Infrastructure.Migrations.AppDb
                     b.ToTable("RefreshTokens");
                 });
 
+            modelBuilder.Entity("Web.Api.Core.Domain.Entities.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CreatedUserId");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<Guid?>("DeletedUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModificationTime");
+
+                    b.Property<Guid?>("ModifiedUserId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("Web.Api.Core.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -83,6 +167,19 @@ namespace Web.Api.Infrastructure.Migrations.AppDb
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Web.Api.Core.Domain.Entities.PermissionMap", b =>
+                {
+                    b.HasOne("Web.Api.Core.Domain.Entities.Permission", "Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Web.Api.Core.Domain.Entities.Role", "Role")
+                        .WithMany("PermissionMaps")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Web.Api.Core.Domain.Entities.RefreshToken", b =>

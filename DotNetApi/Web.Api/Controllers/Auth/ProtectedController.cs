@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Api.Controllers
+namespace Web.Api.Controllers.Auth
 {
     [Authorize(Policy = "ApiUser")]
     [Route("api/[controller]")]
