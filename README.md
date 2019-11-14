@@ -8,7 +8,7 @@ An ASP.NET Core (v2.1) Web API project to quickly bootstrap new projects.  Inclu
 - <code>Web.Api.Infrastructure>**dotnet ef database update --context AppIdentityDbContext**</code>
 
 # Visual Studio
-Open the solution file <code>AspNetCoreApiStarter.sln</code> and build/run.
+Open the solution file <code>DotNetApi.sln</code> and build/run.
 
 # Visual Studio Code
 Open the <code>src</code> folder and <code>F5</code> to build/run.
